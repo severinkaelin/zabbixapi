@@ -56,8 +56,9 @@ class ZabbixApi
     #
     # @param options [Hash]
     # @option opts [String] :url The url of zabbixapi(example: 'http://localhost/zabbix/api_jsonrpc.php')
-    # @option opts [String] :user
-    # @option opts [String] :password
+    # @option opts [String] :bearer_token(optional)
+    # @option opts [String] :user(optional)
+    # @option opts [String] :password(optional)
     # @option opts [String] :http_user A user for basic auth.(optional)
     # @option opts [String] :http_password A password for basic auth.(optional)
     # @option opts [Integer] :timeout Set timeout for requests in seconds.(default: 60)
@@ -71,16 +72,19 @@ class ZabbixApi
         @proxy_port = @proxy_uri.port
         @proxy_user, @proxy_pass = @proxy_uri.userinfo.split(/:/) if @proxy_uri.userinfo
       end
-      unless api_version =~ %r{^5.[0|2]\.\d+$}
-        message = "Zabbix API version: #{api_version} is not supported by this version of zabbixapi"
-        if @options[:ignore_version]
-          puts "[WARNING] #{message}" if @options[:debug]
-        else
-          raise ZabbixApi::ApiError.new(message)
-        end
-      end
 
-      @auth_hash = auth
+      # NOTE: The API version check is currently skipped.
+      #unless api_version =~ %r{^5.[0|2]\.\d+$}
+      #  message = "Zabbix API version: #{api_version} is not supported by this version of zabbixapi"
+      #  if @options[:ignore_version]
+      #    puts "[WARNING] #{message}" if @options[:debug]
+      #  else
+      #    raise ZabbixApi::ApiError.new(message)
+      #  end
+      #end
+
+      # NOTE: Not needed if the bearer authentication is used.
+      #@auth_hash = auth
     end
 
     # Convert message body to JSON string for the Zabbix API

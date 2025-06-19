@@ -99,7 +99,8 @@ class ZabbixApi
         jsonrpc: '2.0'
       }
 
-      message[:auth] = @auth_hash unless body[:method] == 'apiinfo.version' || body[:method] == 'user.login'
+      # NOTE: Not needed if the bearer authentication is used.
+      #message[:auth] = @auth_hash unless body[:method] == 'apiinfo.version' || body[:method] == 'user.login'
 
       JSON.generate(message)
     end

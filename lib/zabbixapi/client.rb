@@ -132,7 +132,7 @@ class ZabbixApi
       request = Net::HTTP::Post.new(uri.request_uri)
       request.basic_auth @options[:http_user], @options[:http_password] if @options[:http_user]
       request.add_field('Content-Type', 'application/json-rpc')
-      request.add_field('Authorization', "Bearer: #{@options[:bearer_token]}")
+      request.add_field('Authorization', "Bearer #{@options[:bearer_token]}")
       request.body = body
 
       response = http.request(request)
